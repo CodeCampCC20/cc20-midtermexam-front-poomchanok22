@@ -35,7 +35,7 @@ function ToDoPage() {
   
 
       );
-      setTodo("");
+      setTodo(intitialValue);
     }
   }
 
@@ -43,8 +43,10 @@ function ToDoPage() {
     actionToggleTodo(id);
   }
 
-  function handleDeleteClick(id) {
-    actionDeleteTodo(id);
+   async function handleDeleteClick(id) {
+   await actionDeleteTodo(id);
+    actionFetchToDoByUserId(userId);
+
   }
 
   return (

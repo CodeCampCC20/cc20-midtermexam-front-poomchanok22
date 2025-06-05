@@ -40,7 +40,7 @@ const useToDoStore = create((set) => ({
   
   actionToggleTodo: async (id) => {
     try {
-      const res = await fetch(`${BASE_URL}/${id}/22`, {
+      const res = await fetch(`${BASE_URL}/api/V1/todos/${id}/22`, {
         method: "PATCH",
       });
       const data = await res.json();
@@ -58,15 +58,11 @@ const useToDoStore = create((set) => ({
   
   actionDeleteTodo: async (id) => {
     try {
-      const res = await fetch(`${BASE_URL}/${id}/22`, {
+      const res = await fetch(`${BASE_URL}/api/V1/todos/${id}/22`, {
         method: "DELETE",
       });
-      const data = await res.json();
-      if (data.success) {
-        set((state) => ({
-          todos: state.todos.filter((todo) => todo.id !== id),
-        }));
-      }
+
+      
     } catch (err) {
       console.error("Error deleting todo:", err);
     }
