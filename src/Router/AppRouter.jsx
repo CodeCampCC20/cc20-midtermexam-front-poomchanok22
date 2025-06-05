@@ -10,9 +10,9 @@ function AppRouter() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route index element={<ToDoPage />} />
+          <Route index element={<LoginPage />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/todopage" element={<ToDoPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

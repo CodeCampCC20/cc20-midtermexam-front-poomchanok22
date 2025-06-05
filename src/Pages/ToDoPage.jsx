@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import useToDoStore from "../stores/todoStore";
 
 const intitialValue = {
-    taskName: "",
-    userId: 22
-  }
+  taskName: "",
+  userId: 22,
+};
+
 function ToDoPage() {
   const [todo, setTodo] = useState(intitialValue);
 
@@ -18,52 +19,48 @@ function ToDoPage() {
 
   useEffect(() => {
     actionFetchToDoByUserId(userId);
-    console.log(todos)
   }, []);
 
   function handleInputChange(e) {
-    const {name, value} = e.target
-    setTodo( (prev)=> ({...prev, [name]: value}));
-    console.log(todo)
+    const { name, value } = e.target;
+    setTodo((prev) => ({ ...prev, [name]: value }));
   }
 
   function handleFormSubmit(e) {
     e.preventDefault();
-
     if (todo.taskName.trim() !== "") {
-      actionAddTodo(todo
-  
-
-      );
+      actionAddTodo(todo);
       setTodo(intitialValue);
     }
   }
 
-  function handleChangeCheck(id) {
-    actionToggleTodo(id);
+  async function handleChangeCheck(id, completed) {
+    await actionToggleTodo(id, completed);
   }
 
-   async function handleDeleteClick(id) {
-   await actionDeleteTodo(id);
-    actionFetchToDoByUserId(userId);
-
+  async function handleDeleteClick(id) {
+    await actionDeleteTodo(id);
+    await actionFetchToDoByUserId(userId);
   }
 
   return (
-    <div className=" border border-red-500 rounded-xl w-xl px-10 py-8 flex flex-col gap-4 justify-center items-center">
+    <div className="min-h-screen flex items-center justify-center">
+    <div className="border border-red-500 rounded-xl w-xl px-10 py-8 flex flex-col gap-4 justify-center items-center">
       <h1 className="text-2xl">ToDo List</h1>
-      <form className="flex justify-between gap-2"
-       onSubmit={handleFormSubmit}>
-        <input className="border border-red-500 rounded-sm"
+      <form className="flex justify-between gap-2" onSubmit={handleFormSubmit}>
+        <input
+          className="border border-red-500 rounded-sm"
           type="text"
           name="taskName"
           placeholder="New task"
           value={todo.taskName}
           onChange={handleInputChange}
         />
-        <button className="cursor-pointer" type="submit">Add</button>
+        <button className="cursor-pointer" type="submit">
+          Add
+        </button>
       </form>
-      <hr className="bg-red-500"/>
+      <hr className="bg-red-500 w-full" />
 
       <ul>
         {todos.map((todo) => (
@@ -71,15 +68,18 @@ function ToDoPage() {
             <input
               type="checkbox"
               checked={todo.completed}
-              onChange={() => handleChangeCheck(todo.id)}
+              onChange={() => handleChangeCheck(todo.id, todo.completed)}
             />
             <span className={todo.completed ? "line-through" : ""}>
               {todo.taskName}
             </span>
-            <button className="cursor-pointer" onClick={() => handleDeleteClick(todo.id)}>DELETE</button>
+            <button className="cursor-pointer" onClick={() => handleDeleteClick(todo.id)}>
+              DELETE
+            </button>
           </li>
         ))}
       </ul>
+    </div>
     </div>
   );
 }
